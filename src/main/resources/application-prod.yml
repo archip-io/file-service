@@ -1,0 +1,36 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: file-service
+  datasource:
+    url: jdbc:postgresql://${ARCHIPIO_FILE_SERVICE_DB_URL}/${ARCHIPIO_FILE_SERVICE_DB_NAME}
+    username: ${ARCHIPIO_FILE_SERVICE_DB_USER}
+    password: ${ARCHIPIO_FILE_SERVICE_DB_PASSWORD}
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    url: jdbc:postgresql://${ARCHIPIO_FILE_SERVICE_DB_URL}/${ARCHIPIO_FILE_SERVICE_DB_NAME}
+    user: ${ARCHIPIO_FILE_SERVICE_DB_USER}
+    password: ${ARCHIPIO_FILE_SERVICE_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  rabbitmq:
+    host: ${ARCHIPIO_FILE_SERVICE_RABBITMQ_HOST}
+    port: ${ARCHIPIO_FILE_SERVICE_RABBITMQ_PORT}
+    virtual-host: ${ARCHIPIO_FILE_SERVICE_RABBITMQ_VIRTUAL_HOST}
+    username: ${ARCHIPIO_FILE_SERVICE_RABBITMQ_USER}
+    password: ${ARCHIPIO_FILE_SERVICE_RABBITMQ_PASSWORD}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
